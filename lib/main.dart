@@ -62,12 +62,20 @@ class _SafeCrackerViewState extends State<SafeCrackerView> {
                     startingValue: values[i],
                     onIncrement: () {
                       setState(() {
-                        values[i]++;
+                        if (values[i] == 9) {
+                          values[i] = 0;
+                        } else {
+                          values[i]++;
+                        }
                       });
                     },
                     onDecrement: () {
                       setState(() {
-                        values[i]--;
+                        if (values[i] == 0) {
+                          values[i] = 9;
+                        } else {
+                          values[i]--;
+                        }
                       });
                     },
                   ),
@@ -97,8 +105,7 @@ class _SafeCrackerViewState extends State<SafeCrackerView> {
         isUnlocked = true;
         feedback = "You unlocked the safe";
       });
-    }
-    else{
+    } else {
       setState(() {
         isUnlocked = false;
         feedback = "Wrong combination, try again!";
