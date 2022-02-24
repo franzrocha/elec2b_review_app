@@ -16,14 +16,18 @@ class SafeDial extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         margin: const EdgeInsets.all(4),
-        padding: const EdgeInsets.all(4),
+        padding: const EdgeInsets.all(6),
         constraints: const BoxConstraints(minHeight: 60),
-        color: Colors.orangeAccent,
+         decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          color: Colors.greenAccent,
+         ),
         child: Column(
           children: [
             IconButton(
                 onPressed: onIncrement,
-                icon: const Icon(CupertinoIcons.chevron_up)),
+                icon: const Icon(CupertinoIcons.chevron_up),
+                ),
             Expanded(
                 child: Text(
               "$startingValue",

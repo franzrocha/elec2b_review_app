@@ -38,62 +38,101 @@ class _SafeCrackerViewState extends State<SafeCrackerView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blueGrey,
       appBar: AppBar(
-        title: const Text("Safe Cracker"),
+        toolbarHeight: 33,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [Icon(Icons.vpn_key_rounded), Text("SafeCracker")],
+        ),
+        backgroundColor: Colors.black,
       ),
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-                isUnlocked
-                    ? CupertinoIcons.lock_open_fill
-                    : CupertinoIcons.lock_fill,
-                size: 128,
-                color: Colors.redAccent),
-            Container(
-              margin: const EdgeInsets.symmetric(vertical: 32),
-              height: 120,
-              child:
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                for (int i = 0; i < values.length; i++)
-                  SafeDial(
-                    startingValue: values[i],
-                    onIncrement: () {
-                      setState(() {
-                        if (values[i] == 9) {
-                          values[i] = 0;
-                        } else {
-                          values[i]++;
-                        }
-                      });
-                    },
-                    onDecrement: () {
-                      setState(() {
-                        if (values[i] == 0) {
-                          values[i] = 9;
-                        } else {
-                          values[i]--;
-                        }
-                      });
-                    },
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/night.jpg"),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                child: isUnlocked
+                    ? Image.asset('assets/unlocked_vault.png',
+                        width: 100, height: 100)
+                    : Image.asset(
+                        'assets/closed_vault.png',
+                        width: 100,
+                        height: 100,
+                      ),
+              ),
+
+              // Icon(
+              //     isUnlocked
+              //         ? CupertinoIcons.lock_open_fill
+              //         : CupertinoIcons.lock_fill,
+              //     size: 128,
+              //     color: Colors.redAccent),
+              Container(
+                margin: const EdgeInsets.symmetric(vertical: 32),
+                height: 120,
+                child:
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  for (int i = 0; i < values.length; i++)
+                    SafeDial(
+                      startingValue: values[i],
+                      onIncrement: () {
+                        setState(() {
+                          if (values[i] == 9) {
+                            values[i] = 0;
+                          } else {
+                            values[i]++;
+                          }
+                        });
+                      },
+                      onDecrement: () {
+                        setState(() {
+                          if (values[i] == 0) {
+                            values[i] = 9;
+                          } else {
+                            values[i]--;
+                          }
+                        });
+                      },
+                    ),
+                ]),
+              ),
+              if (feedback.isNotEmpty)
+                Text(
+                  feedback,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
                   ),
-              ]),
-            ),
-            if (feedback.isNotEmpty) Text(feedback),
-            Container(
-              margin: const EdgeInsets.symmetric(vertical: 48),
-              child: TextButton(
-                onPressed: unlockSafe,
-                child: Container(
-                  padding: const EdgeInsets.all(32),
-                  color: Colors.greenAccent,
-                  child: const Text("Open the safe"),
+                ),
+              Container(
+                margin: const EdgeInsets.symmetric(vertical: 48),
+                child: OutlinedButton(
+                  onPressed: unlockSafe,
+                  child: Container(
+                    padding: const EdgeInsets.all(32),
+                    child: const Text(
+                      "Open the safe",
+                      style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  style: OutlinedButton.styleFrom(
+                      backgroundColor: Colors.black,
+                      side: const BorderSide(color: Colors.white, width: 2.0),
+                      minimumSize: const Size(100.0, 40.0)),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -103,7 +142,7 @@ class _SafeCrackerViewState extends State<SafeCrackerView> {
     if (checkCombination()) {
       setState(() {
         isUnlocked = true;
-        feedback = "You unlocked the safe";
+        feedback = "You unlocked the safe.";
       });
     } else {
       setState(() {
